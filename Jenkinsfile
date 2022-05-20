@@ -12,9 +12,13 @@ podTemplate(containers: [
             // git url: 'https://github.com/hashicorp/terraform.git', branch: 'main'
             container('base-container') {
                 stage('Build Image') {
+                    
+                        withCredentials([file(credentialsId: 'svc-acc-keys-file', variable: 'svc-acc-keys-file')]) {
+                            sh '''
+                                gcloud auth activate-service-account 400170333729-compute@developer.gserviceaccount.com --key-file=$svc-acc-keys-file --project=gke-hello-world-350007
+                            '''    
+                        }
                     sh '''
-                        gcloud iam service-accounts keys create svc-acc-keys --iam-account=400170333729-compute@developer.gserviceaccount.com
-                        gcloud auth activate-service-account 400170333729-compute@developer.gserviceaccount.com --key-file=svc-acc-keys --project=gke-hello-world-350007
                         docker build -t gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v${BUILD_NUMBER}
                         docker push gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v${BUILD_NUMBER}
                     '''
