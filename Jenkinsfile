@@ -13,9 +13,9 @@ podTemplate(containers: [
             container('base-container') {
                 stage('Build Image') {
                     
-                        withCredentials([file(credentialsId: 'svc-acc-keys-file', variable: 'svc-acc-keys-file')]) {
+                        withCredentials([file(credentialsId: 'svc-acc-keys-file', variable: 'FILE')]) {
                             sh '''
-                                gcloud auth activate-service-account 400170333729-compute@developer.gserviceaccount.com --key-file=$svc-acc-keys-file --project=gke-hello-world-350007
+                                gcloud auth activate-service-account 400170333729-compute@developer.gserviceaccount.com --key-file=$FILE --project=gke-hello-world-350007
                             '''    
                         }
                     sh '''
