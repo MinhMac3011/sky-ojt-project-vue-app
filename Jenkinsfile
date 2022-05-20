@@ -7,30 +7,30 @@
 //        )
 //  ]) {
 podTemplate(yaml: '''
-        apiVersion: v1
-        kind: Pod
-        metadata:
-            labels:
-                some-label: some-label-value
-        spec:
-            containers:
-            -   name: docker
-                image: gcr.io/banded-ridge-349801/docker-gcloud-kubectl-alpine:1.0
-                securityContext:
-                    privileged: true
-                command:
-                    - sleep
-                args:
-                    - 99d
-            - name: kaniko
-                image: gcr.io/kaniko-project/executor:debug
-                env:
-                    - name: GOOGLE_APPLICATION_CREDENTIALS
-                      value: /home/jenkins/agent/workspace/wp-gke/key.json
-                command:
-                    - sleep
-                args:
-                    - 99d
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+      some-label: some-label-value
+spec:
+    containers:
+    -   name: docker
+        image: gcr.io/banded-ridge-349801/docker-gcloud-kubectl-alpine:1.0
+        securityContext:
+          privileged: true
+        command:
+        - sleep
+        args:
+        - 99d
+    -   name: kaniko
+        image: gcr.io/kaniko-project/executor:debug
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /home/jenkins/agent/workspace/wp-gke/key.json
+        command:
+        - sleep
+        args:
+        - 99d
 ''') {
 
     node(POD_LABEL) {
