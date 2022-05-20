@@ -27,6 +27,7 @@ podTemplate(containers: [
                         '''    
                     }
                     sh '''
+                        cd sky-ojt-project-vue-app
                         docker build -t gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v${BUILD_NUMBER} .
                         docker push gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v${BUILD_NUMBER}
                     '''
