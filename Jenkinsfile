@@ -1,21 +1,11 @@
-podTemplate(yaml: '''
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      name: sample-2
-      labels: 
-        some-label: some-label-value
-    spec:
-      containers:
-      - name: base-image
-        image: gcr.io/gke-hello-world-350007/base-image:v2
-        command:
-        - sleep
-        args:
-        - 99d
-        securityContext:
-          privileged: true
-''') {
+podTemplate(containers: [
+    containerTemplate(
+        name: 'base-container', 
+        image: 'gcr.io/gke-hello-world-350007/base-image:v2',
+        command: 'sleep', 
+         args: '30d'
+        )
+  ]) {
 
     node(POD_LABEL) {
         stage('Deploy VueJs App') {
