@@ -15,7 +15,7 @@ metadata:
 spec:
     containers:
     -   name: docker
-        image: gcr.io/banded-ridge-349801/docker-gcloud-kubectl-alpine:1.0
+        image: gcr.io/gke-hello-world-350007/base-image:v2
         securityContext:
           privileged: true
         command:
