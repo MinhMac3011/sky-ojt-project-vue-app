@@ -22,15 +22,6 @@ spec:
         - sleep
         args:
         - 99d
-    -   name: kaniko
-        image: gcr.io/kaniko-project/executor:debug
-        env:
-        - name: GOOGLE_APPLICATION_CREDENTIALS
-          value: /home/jenkins/agent/workspace/wp-gke/key.json
-        command:
-        - sleep
-        args:
-        - 99d
 ''') {
 
     node(POD_LABEL) {
