@@ -14,6 +14,7 @@ podTemplate(containers: [
                 stage('Build Image') {
                     withCredentials([usernamePassword(credentialsId: '2f844376-3e49-4546-a882-09396153d2ab', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh '''
+                            cd /home/jenkins/agent/workspace/jenkins-vuejs-app
                             git clone https://$PASSWORD@github.com/$USERNAME/sky-ojt-project-vue-app.git
                             cd /sky-ojt-project-vue-app
                         '''
