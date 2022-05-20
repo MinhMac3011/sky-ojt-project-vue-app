@@ -9,7 +9,7 @@ podTemplate(containers: [
 
     node(POD_LABEL) {
         stage('Deploy VueJs App') {
-            // git url: 'https://github.com/hashicorp/terraform.git', branch: 'main'
+            git url: 'https://github.com/MinhMac3011/sky-ojt-project-vue-app.git', branch: 'main'
             container('base-container') {
                 stage('Build Image') {
                     
