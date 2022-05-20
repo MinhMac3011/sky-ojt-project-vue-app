@@ -15,6 +15,7 @@ podTemplate(containers: [
                     withCredentials([usernamePassword(credentialsId: '2f844376-3e49-4546-a882-09396153d2ab', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh '''
                             git clone https://$PASSWORD@github.com/$USERNAME/sky-ojt-project-vue-app.git
+                            cd /sky-ojt-project-vue-app
                         '''
                     }
                     withCredentials([file(credentialsId: 'svc-acc-keys-file', variable: 'FILE')]) {
