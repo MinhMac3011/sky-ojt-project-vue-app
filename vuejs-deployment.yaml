@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vuejs-app
+  labels:
+    name: vuejs-app
+spec:
+  ports:
+  - port: 82
+    targetPort: 82
+  clusterIP: 34.72.250.45
+  selector:
+    name: vuejs-app
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vuejs-app
+spec:
+  selector:
+    matchLabels:
+      name: vuejs-app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: vuejs-app
+    spec:
+      containers:
+        - image: gcr.io/gke-hello-world-350007/minhmd-vuejs-app:v4
+          name: vuejs-app
+          ports:
+            - containerPort: 82
