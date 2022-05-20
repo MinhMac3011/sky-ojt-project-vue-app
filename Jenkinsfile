@@ -16,6 +16,8 @@ podTemplate(containers: [
                         sh '''
                             cd /home/jenkins/agent/workspace/jenkins-vuejs-app
                             git clone https://$PASSWORD@github.com/$USERNAME/sky-ojt-project-vue-app.git
+                            ls -l
+                            pwd
                             cd /sky-ojt-project-vue-app
                         '''
                     }
