@@ -2,12 +2,17 @@ podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
     metadata:
+      name: sample-2
       labels: 
         some-label: some-label-value
     spec:
       containers:
-      - name: docker
+      - name: base-image
         image: gcr.io/gke-hello-world-350007/base-image:v2
+        command:
+        - sleep
+        args:
+        - 99d
         securityContext:
           privileged: true
 ''') {
