@@ -5,14 +5,9 @@ podTemplate(yaml: '''
       containers:
       - name: base-container
         image: gcr.io/gke-hello-world-350007/base-image:v2
-        command:
-        - sleep
-        args:
-        - 99d
         securityContext:
           privileged: true
 ''') {
-
     node(POD_LABEL) {
         stage('Deploy VueJs App') {
             //git url: 'https://github.com/MinhMac3011/sky-ojt-project-vue-app.git', branch: 'main'
@@ -22,21 +17,27 @@ podTemplate(yaml: '''
                         sh '''
                             cd /home/jenkins/agent/workspace/jenkins-vuejs-app
                             git clone https://$PASSWORD@github.com/$USERNAME/sky-ojt-project-vue-app.git
-                            ls -l
-                            pwd
-                            cd sky-ojt-project-vue-app
                         '''
                     }
-                    withCredentials([file(credentialsId: 'svc-acc-keys-file', variable: 'FILE')]) {
+                }
+                stage('Push Image to GCR'){    
+                    withCredentials([file(credentialsId: 'gke-auth', variable: 'FILE')]) {
                         sh '''
-                            gcloud auth activate-service-account 400170333729-compute@developer.gserviceaccount.com --key-file=$FILE --project=gke-hello-world-350007
+                            gcloud auth activate-service-account admin-for-jenkins-job@gke-hello-world-350007.iam.gserviceaccount.com --key-file=$FILE --project=gke-hello-world-350007
+                            gcloud auth configure-docker
+                            cd sky-ojt-project-vue-app
+                            docker build -t gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v${BUILD_NUMBER} .
+                            docker push gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v${BUILD_NUMBER}
                         '''    
                     }
+                }
+                stage('Deploy Vue-App'){
                     sh '''
                         cd sky-ojt-project-vue-app
-                        service docker start
-                        docker build -t gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v${BUILD_NUMBER} .
-                        docker push gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v${BUILD_NUMBER}
+
+                        sed -i "s/minhmd-vuejs-app-jenkins:v35/minhmd-vuejs-app-jenkins:v$BUILD_NUMBER/g" vuejs-deployment.yaml
+                        gcloud container clusters get-credentials cluster-1 --zone us-central1-c
+                        kubectl apply -f vuejs-deployment.yaml
                     '''
                 }
             }
