@@ -11,7 +11,6 @@ podTemplate(yaml: '''
     node(POD_LABEL) {
         stage('Deploy VueJs App') {
             //git url: 'https://github.com/MinhMac3011/sky-ojt-project-vue-app.git', branch: 'main'
-            checkout scm
             container('base-container') {
                 stage('Build Image') {
                     withCredentials([usernamePassword(credentialsId: '2f844376-3e49-4546-a882-09396153d2ab', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
@@ -35,10 +34,9 @@ podTemplate(yaml: '''
                 stage('Deploy Vue-App'){
                     sh '''
                         cd sky-ojt-project-vue-app
-                        ls -a
                         sed -i "s/minhmd-vuejs-app-jenkins:v35/minhmd-vuejs-app-jenkins:v$BUILD_NUMBER/g" vuejs-deployment.yaml
                         gcloud container clusters get-credentials cluster-1 --zone us-central1-c
-                        kubectl apply -f vuejs-deployment.yaml
+                        kubectl apply -f vuejs-deployment.yaml -n ns-jenkins
                     '''
                 }
             }
