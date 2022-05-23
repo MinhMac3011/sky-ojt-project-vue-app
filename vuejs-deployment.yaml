@@ -8,7 +8,6 @@ spec:
   ports:
   - port: 82
     targetPort: 82
-  clusterIP: 34.72.250.45
   selector:
     name: vuejs-app
   type: LoadBalancer
@@ -29,7 +28,7 @@ spec:
         name: vuejs-app
     spec:
       containers:
-        - image: gcr.io/gke-hello-world-350007/minhmd-vuejs-app:v4
+        - image: gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v35
           name: vuejs-app
           ports:
             - containerPort: 82
