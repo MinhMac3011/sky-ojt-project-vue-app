@@ -34,7 +34,7 @@ podTemplate(yaml: '''
                 stage('Deploy Vue-App'){
                     sh '''
                         cd sky-ojt-project-vue-app
-
+                        ls -a
                         sed -i "s/minhmd-vuejs-app-jenkins:v35/minhmd-vuejs-app-jenkins:v$BUILD_NUMBER/g" vuejs-deployment.yaml
                         gcloud container clusters get-credentials cluster-1 --zone us-central1-c
                         kubectl apply -f vuejs-deployment.yaml
