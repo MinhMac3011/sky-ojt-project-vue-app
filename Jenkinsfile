@@ -11,6 +11,7 @@ podTemplate(yaml: '''
     node(POD_LABEL) {
         stage('Deploy VueJs App') {
             //git url: 'https://github.com/MinhMac3011/sky-ojt-project-vue-app.git', branch: 'main'
+            checkout scm
             container('base-container') {
                 stage('Build Image') {
                     withCredentials([usernamePassword(credentialsId: '2f844376-3e49-4546-a882-09396153d2ab', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
