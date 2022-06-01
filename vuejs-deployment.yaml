@@ -28,7 +28,7 @@ spec:
         name: vuejs-app
     spec:
       containers:
-        - image: gcr.io/gke-hello-world-350007/minhmd-vuejs-app-jenkins:v35
+        - image: gcr.io/banded-ridge-349801/minhmd-vuejs-app-jenkins:v35
           name: vuejs-app
           ports:
             - containerPort: 82
